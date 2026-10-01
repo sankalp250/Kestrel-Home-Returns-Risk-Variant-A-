@@ -1,0 +1,23 @@
+{
+  "train_rows_after_dedup": 10504,
+  "duplicate_order_rows_removed": 651,
+  "train_return_rate": 0.11424219345011424,
+  "validation_start": "2026-04-02 00:23:00",
+  "train_rows": 8403,
+  "validation_rows": 2101,
+  "validation_return_rate": 0.11518324607329843,
+  "best_iteration": 223,
+  "metrics": {
+    "roc_auc": 0.7794846602856774,
+    "average_precision": 0.4053201000974682,
+    "log_loss": 0.297531096026121,
+    "accuracy_at_0_5": 0.8924321751546882,
+    "precision_at_0_5": 0.7666666666666667,
+    "recall_at_0_5": 0.09504132231404959
+  },
+  "excluded_post_return_fields": [
+    "last_service_event_type",
+    "pickup_scheduled_at"
+  ],
+  "note": "Validation is time-based; model uses dispatch-known fields only."
+}

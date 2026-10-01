@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f8f7f4">
+  <title>Kestrel Home · Pre-Dispatch Return Risk Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <!-- Ambient Liquid Canvas (Morphing Organic Fluid Blobs for Glass Refraction) -->
+  <div class="liquid-canvas" aria-hidden="true">
+    <div class="liquid-blob blob-1"></div>
+    <div class="liquid-blob blob-2"></div>
+    <div class="liquid-blob blob-3"></div>
+    <div class="liquid-shimmer"></div>
+  </div>
+
+  <div class="app-shell">
+    <!-- Top Navigation Masthead -->
+    <header class="masthead glass-panel">
+      <div class="brand-lockup">
+        <div class="brand-glyph">
+          <svg viewBox="0 0 32 32" fill="none" class="brand-svg">
+            <path d="M7 6L14 16L7 26M25 6L18 16L25 26" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="16" cy="16" r="3" fill="currentColor"/>
+          </svg>
+        </div>
+        <div class="brand-titles">
+          <div class="brand-name">KESTREL HOME</div>
+          <div class="brand-desc">Operations Intelligence · Dispatch Decision Engine</div>
+        </div>
+      </div>
+
+      <div class="masthead-controls">
+        <div class="glass-chip status-chip">
+          <span class="pulse-indicator"></span>
+          <span class="chip-text">Local CatBoost Core</span>
+          <span class="chip-sub">0.78 ROC-AUC · ₹0 API Cost</span>
+        </div>
+        <div class="stats-badge glass-chip" id="sessionStatsChip" title="Logged Dispatches in Local SQLite">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          <span id="sessionChecksCount">Syncing…</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Operational Hero Banner -->
+    <section class="hero-strip glass-card">
+      <div class="hero-text">
+        <div class="eyebrow-pill">PRE-DISPATCH RISK SCREENING</div>
+        <h1 class="hero-headline">Protect the bottom line before the parcel leaves the floor.</h1>
+        <p class="hero-subtext">
+          Evaluating pre-transit factors against Kestrel's <strong>₹1,150</strong> return write-down vs. <strong>₹45</strong> confirmation call economics. Pure dispatch-known signals — zero future leakage.
+        </p>
+      </div>
+      <div class="quick-presets-box">
+        <span class="preset-label">Test Scenarios</span>
+        <div class="preset-buttons" id="presetsContainer">
+          <button type="button" class="preset-btn" data-preset="low_risk" id="btnPresetLow">
+            <span class="preset-dot dot-low"></span>
+            <span>Low Risk (Prepaid)</span>
+          </button>
+          <button type="button" class="preset-btn" data-preset="medium_risk" id="btnPresetMedium">
+            <span class="preset-dot dot-medium"></span>
+            <span>Medium Risk (Shield)</span>
+          </button>
+          <button type="button" class="preset-btn" data-preset="high_risk" id="btnPresetHigh">
+            <span class="preset-dot dot-high"></span>
+            <span>High Risk (COD)</span>
+          </button>
+          <button type="button" class="preset-btn ghost" id="btnLoadNextUnlabelled">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>
+            <span>Next from Queue</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Workspace -->
+    <div class="workspace-grid">
+      <!-- Left Column: Input Inspection Form -->
+      <section class="glass-card panel-order-entry">
+        <div class="panel-topline">
+          <div class="panel-heading-wrap">
+            <div class="section-tag">WAREHOUSE DISPATCH SNAPSHOT</div>
+            <h2 class="panel-title">Consignment Profile</h2>
+          </div>
+          <button type="button" class="text-action-btn" id="btnResetForm">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+            <span>Clear Fields</span>
+          </button>
+        </div>
+
+        <form id="riskForm" class="order-form">
+          <!-- Segment 1: Order & Commercials -->
+          <div class="form-section">
+            <div class="section-header">
+              <span class="section-number">01</span>
+              <div>
+                <h3 class="section-name">Order Identification & Commercials</h3>
+                <p class="section-hint">Invoice values, SKU details and payment channels</p>
+              </div>
+            </div>
+
+            <div class="inputs-grid">
+              <div class="input-group">
+                <label for="order_id">Order ID</label>
+                <div class="input-wrapper">
+                  <input type="text" id="order_id" name="order_id" required placeholder="e.g. KO2610504">
+                </div>
+              </div>
+
+              <div class="input-group">
+                <label for="order_placed_at">Order Placed At (IST)</label>
+                <div class="input-wrapper">
+                  <input type="text" id="order_placed_at" name="order_placed_at" required placeholder="2026-07-01 14:30">
+                </div>
+              </div>
+
+              <div class="input-group">
+                <label for="sku">Product SKU</label>
+                <div class="input-wrapper">
+                  <input type="text" id="sku" name="sku" required placeholder="e.g. SKU_AIRFRY_MAX">
+                </div>
+              </div>
+
+              <div class="input-group">
+                <label for="sales_channel">Sales Channel</label>
+                <div class="select-wrapper">
+                  <select id="sales_channel" name="sales_channel">
+                    <option value="app">Kestrel App</option>
+                    <option value="web">D2C Webstore</option>
+                    <option value="marketplace">Marketplace Feed</option>
+                    <option value="partner_outlet">Partner Outlet Store</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="input-group">
+                <label for="payment_mode">Payment Mode</label>
+                <div class="select-wrapper">
+                  <select id="payment_mode" name="payment_mode">
+                    <option value="prepaid_upi">Prepaid UPI (Low Risk)</option>
+                    <option value="prepaid_card">Prepaid Card</option>
+                    <option value="emi">Consumer EMI</option>
+                    <option value="cod">Cash on Delivery (High Risk)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="input-group">
+                <label for="source">Source Feed</label>
+                <div class="select-wrapper">
+                  <select id="source" name="source">
+                    <option value="crm">Kestrel CRM (Canonical)</option>
+                    <option value="partner_feed">Partner Feed Re-import</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="input-group">
+                <label for="order_value_inr">Order Value (INR ₹)</label>
+                <div class="input-wrapper with-prefix">
+                  <span class="prefix">₹</span>
+                  <input type="number" id="order_value_inr" name="order_value_inr" step="0.01" min="0" required placeholder="4999">
+                </div>
+              </div>
+
+              <div class="input-group">
+                <label for="discount_pct">Discount Applied (%)</label>
+                <div class="input-wrapper with-suffix">
+                  <input type="number" id="discount_pct" name="discount_pct" step="0.1" min="0" max="100" required placeholder="10">
+                  <span class="suffix">%</span>
+                </div>
+              </div>
+
+              <div class="input-group">
+                <label for="qty">Quantity</label>
+                <div class="input-wrapper">
+                  <input type="number" id="qty" name="qty" min="1" step="1" required value="1">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Segment 2: Logistics & Fulfillment -->
+          <div class="form-section">
+            <div class="section-header">
+              <span class="section-number">02</span>
+              <div>
+                <h3 class="section-name">Logistics & Transit Promise</h3>
+                <p class="section-hint">Destination pincode and promised SLA</p>
+              </div>
+            </div>
+
+            <div class="inputs-grid">
+              <div class="input-group">
+                <label for="delivery_pincode">Delivery Pincode</label>
+                <div class="input-wrapper">
+                  <input type="number" id="delivery_pincode" name="delivery_pincode" required placeholder="560001 (000000 for Walk-in)">
+                </div>
+              </div>
+
+              <div class="input-group">
+                <label for="promised_delivery_days">Promised SLA (Days)</label>
+                <div class="input-wrapper with-suffix">
+                  <input type="number" id="promised_delivery_days" name="promised_delivery_days" min="0" step="1" required placeholder="3">
+                  <span class="suffix">days</span>
+                </div>
+              </div>
+
+              <div class="input-group">
+                <label for="is_gift">Gift Consignment?</label>
+                <div class="select-wrapper">
+                  <select id="is_gift" name="is_gift">
+                    <option value="N">Standard Order (No)</option>
+                    <option value="Y">Marked as Gift (Yes)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Segment 3: Customer History & Special Notes -->
+          <div class="form-section">
+            <div class="section-header">
+              <span class="section-number">03</span>
+              <div>
+                <h3 class="section-name">Customer Relationship & Dispatch Notes</h3>
+                <p class="section-hint">Historical transaction signals and delivery instructions</p>
+              </div>
+            </div>
+
+            <div class="inputs-grid">
+              <div class="input-group">
+                <label for="customer_id">Customer ID</label>
+                <div class="input-wrapper">
+                  <input type="text" id="customer_id" name="customer_id" required placeholder="e.g. CUST_1042">
+                </div>
+              </div>
+
+              <div class="input-group">
+                <label for="customer_prior_orders">Prior Completed Orders</label>
+                <div class="input-wrapper">
+                  <input type="number" id="customer_prior_orders" name="customer_prior_orders" min="0" step="1" required placeholder="0">
+                </div>
+              </div>
+
+              <div class="input-group">
+                <label for="customer_prior_returns">Prior Return Incidents</label>
+                <div class="input-wrapper">
+                  <input type="number" id="customer_prior_returns" name="customer_prior_returns" min="0" step="1" required placeholder="0">
+                </div>
+              </div>
+
+              <div class="input-group span-full">
+                <label for="delivery_note">Customer / Outlet Delivery Instructions (Regex-Scanned)</label>
+                <div class="textarea-wrapper">
+                  <textarea id="delivery_note" name="delivery_note" rows="2" placeholder="e.g. Call before coming, leave with guard if flat is locked, delivery on weekday only"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Form Action Bar -->
+          <div class="form-action-bar">
+            <div class="leakage-shield-notice">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <span>Leakage Guard: <code>last_service_event_type</code> &amp; <code>pickup_scheduled_at</code> omitted</span>
+            </div>
+            <button type="submit" class="submit-risk-btn" id="submitBtn">
+              <span class="btn-fluid-aura"></span>
+              <span class="btn-content">
+                <span id="submitLabel">Compute Return Risk</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </span>
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Right Column: Decision Engine & Liquid Glass Display -->
+      <aside class="decision-column">
+        <!-- Result Card with Liquidmorphic Meter -->
+        <div class="glass-card result-card" id="resultCard">
+          <!-- Standby State -->
+          <div class="standby-view" id="standbyView">
+            <div class="standby-orb">
+              <div class="liquid-wave"></div>
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            </div>
+            <h3 class="standby-title">Awaiting Order Snapshot</h3>
+            <p class="standby-desc">Select a test preset above or enter order parameters to estimate return probability with SHAP causal reasons.</p>
+            <div class="standby-metrics-grid">
+              <div class="standby-metric">
+                <span class="metric-label">Avg Return Cost</span>
+                <span class="metric-value">₹1,150</span>
+              </div>
+              <div class="standby-metric">
+                <span class="metric-label">Confirmation Call</span>
+                <span class="metric-value">₹45</span>
+              </div>
+              <div class="standby-metric">
+                <span class="metric-label">Break-even Risk</span>
+                <span class="metric-value accent">~11.2%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Active Assessment View -->
+          <div class="active-assessment-view hidden" id="activeAssessmentView">
+            <div class="assessment-header">
+              <div class="order-tag-wrap">
+                <span class="order-tag-label">ORDER</span>
+                <span class="order-tag-val" id="resOrderId">KO2610504</span>
+              </div>
+              <div class="risk-pill-badge" id="riskPillBadge">
+                <span class="badge-dot"></span>
+                <span id="riskPillText">LOW RISK</span>
+              </div>
+            </div>
+
+            <!-- Liquid Risk Meter Visualizer -->
+            <div class="liquid-gauge-container">
+              <div class="liquid-gauge-outer">
+                <svg class="liquid-gauge-svg" viewBox="0 0 160 160">
+                  <circle class="gauge-bg-track" cx="80" cy="80" r="68"></circle>
+                  <circle class="gauge-fill-track" id="gaugeFillTrack" cx="80" cy="80" r="68"></circle>
+                </svg>
+                <div class="liquid-gauge-core" id="liquidGaugeCore">
+                  <div class="liquid-wave-fluid" id="liquidWaveFluid"></div>
+                  <div class="gauge-number-wrap">
+                    <span class="gauge-number" id="resScoreValue">0.0</span>
+                    <span class="gauge-percent">%</span>
+                    <span class="gauge-sub">Return Risk</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Operational Threshold Scale (Unit Economics) -->
+            <div class="economics-scale-box">
+              <div class="scale-header">
+                <span class="scale-title">Operational Threshold Benchmark</span>
+                <span class="scale-point" id="scalePointLabel">Break-even: 11.2%</span>
+              </div>
+              <div class="scale-track-wrap">
+                <div class="scale-track">
+                  <div class="scale-zone zone-low" title="0% - 11.2%: Standard Dispatch"></div>
+                  <div class="scale-zone zone-med" title="11.2% - 20%: Pre-dispatch Call Recommended"></div>
+                  <div class="scale-zone zone-high" title=">20%: Operations Manual Review"></div>
+                  <div class="scale-breakeven-pin" style="left: 11.2%;" title="₹45 / (0.35 * ₹1150) = 11.18%"></div>
+                  <div class="scale-marker" id="scaleMarkerPin" style="left: 5%;"></div>
+                </div>
+                <div class="scale-labels">
+                  <span>0%</span>
+                  <span class="scale-be-text">11.2% (Call Target)</span>
+                  <span>20%+ (Review)</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Recommendation Box -->
+            <div class="action-recommendation-box" id="actionRecBox">
+              <div class="action-label">RECOMMENDED OPERATIONS ACTION</div>
+              <div class="action-title-row">
+                <span class="action-icon" id="actionIcon">✓</span>
+                <span class="action-headline" id="resActionText">STANDARD DISPATCH</span>
+              </div>
+              <p class="action-strategy" id="resActionStrategy">Dispatch without intervention. Return probability is below the ₹45 confirmation call break-even threshold.</p>
+            </div>
+
+            <!-- Top Model Reasons (Tree SHAP) -->
+            <div class="reasons-block">
+              <div class="reasons-heading">
+                <span>Key Model Attributions</span>
+                <span class="reasons-source-badge">Local SHAP</span>
+              </div>
+              <div class="reasons-list" id="reasonsContainer">
+                <!-- Dynamically populated reason cards -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Audit Log Drawer -->
+        <div class="glass-card audit-log-card">
+          <div class="audit-header">
+            <div class="audit-title-wrap">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
+              <span>Recent Dispatches Audit</span>
+            </div>
+            <button type="button" class="icon-refresh-btn" id="btnRefreshHistory" title="Refresh local SQLite history">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-1.19"/></svg>
+            </button>
+          </div>
+          <div class="audit-table-wrap">
+            <table class="audit-table">
+              <thead>
+                <tr>
+                  <th>Order</th>
+                  <th>Risk Score</th>
+                  <th>Band</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="auditTableBody">
+                <tr>
+                  <td colspan="4" class="audit-empty">No recent dispatches logged yet.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Operations Footer -->
+    <footer class="ops-footer glass-panel">
+      <div class="footer-left">
+        <strong>Kestrel Home Appliances</strong> · Take-Home Variant A · Certified Dispatch Guardrail
+      </div>
+      <div class="footer-right">
+        <span>Deterministic SHAP Explanations</span>
+        <span class="sep">·</span>
+        <span>Zero External LLM Dependency</span>
+        <span class="sep">·</span>
+        <span>Local SQLite Logging</span>
+      </div>
+    </footer>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

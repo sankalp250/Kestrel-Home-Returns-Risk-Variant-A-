@@ -1,0 +1,37 @@
+.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+.env
+*.db
+
+# Client data - never publish these files.
+data/train.csv
+data/test_unlabelled.csv
+data/customers.csv
+data/products.csv
+data/ops-policy.pdf
+data/email-thread.txt
+data/README_source.txt
+data/sample_submission.csv
+
+# Local model and output artifacts can be shared only through the private engagement repository/package.
+*.log
+
+# Client files accidentally kept at project root during local work; never commit them.
+/train.csv
+/test_unlabelled.csv
+/customers.csv
+/products.csv
+/sample_submission.csv
+/ops-policy.pdf
+/email-thread.txt
+/README_source.txt
+
+# Local CatBoost training traces.
+catboost_info/
+experiment.py
+analyze_validation.py
+_renders/
+kestrel_predictions.db
+client_pack/
