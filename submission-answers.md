@@ -4,7 +4,7 @@
 
 ## Github Repo URL
 
-`<PRIVATE_GITHUB_REPO_URL>`
+`https://github.com/sankalp250/Kestrel-Home-Returns-Risk-Variant-A-`
 
 The repository should be private because the supplied Kestrel data is client data and the policy prohibits public publication.
 

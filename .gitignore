@@ -5,11 +5,8 @@ __pycache__/
 .env
 *.db
 
-# Client data - never publish these files.
+# Client training data & raw attachments - keep off public repositories.
 data/train.csv
-data/test_unlabelled.csv
-data/customers.csv
-data/products.csv
 data/ops-policy.pdf
 data/email-thread.txt
 data/README_source.txt
