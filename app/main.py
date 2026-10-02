@@ -35,9 +35,14 @@ app = FastAPI(title="Kestrel Returns Risk", version="1.0.0", lifespan=lifespan)
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 
-@app.get("/", response_class=FileResponse)
+@app.api_route("/", methods=["GET", "HEAD"], response_class=FileResponse)
 def home() -> FileResponse:
     return FileResponse(STATIC_DIR / "index.html")
+
+
+@app.api_route("/healthz", methods=["GET", "HEAD"])
+def health_check() -> dict:
+    return {"status": "healthy", "service": "kestrel-returns-risk"}
 
 
 @app.get("/api/example")
