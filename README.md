@@ -49,18 +49,65 @@ $$\text{Break-even Return Probability } (p^*) = \frac{₹45}{₹402.50} \approx 
 
 ## 🏛️ System Architecture
 
+```
+┌────────────────────────────────────────────────────────────────────────┐
+│                      WAREHOUSE DISPATCH SNAPSHOT                       │
+│                        (test_unlabelled.csv)                           │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│                        ANTI-LEAKAGE GUARDRAIL                          │
+│   (Purges last_service_event_type and pickup_scheduled_at post-events) │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│                     FEATURE ENGINEERING PIPELINE                       │
+│  (Customer Tenure, Pincode Area, Basket-to-List Ratio, Note Keywords)  │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│                         CATBOOST CLASSIFIER                            │
+│                 (model/return_risk.cbm | ROC-AUC: 0.7795)              │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │
+                  ┌─────────────────┴─────────────────┐
+                  ▼                                   ▼
+┌───────────────────────────────────┐   ┌────────────────────────────────┐
+│      LOCAL TREE SHAP ENGINE       │   │      UNIT ECONOMICS GATE       │
+│  (Feature Attributions | ₹0 Cost) │   │ (11.2% Call Break-Even Target) │
+└─────────────────┬─────────────────┘   └────────────────┬───────────────┘
+                  │                                      │
+                  └─────────────────┬────────────────────┘
+                                    │
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│                        FASTAPI INFERENCE ENGINE                        │
+│                              (app/main.py)                             │
+└───────────────────┬───────────────────┬───────────────────┬────────────┘
+                    │                   │                   │
+                    ▼                   ▼                   ▼
+┌───────────────────────┐   ┌───────────────────────┐   ┌────────────────┐
+│  LIQUIDMORPHIC WEB UI │   │   SQLITE AUDIT LOG    │   │PREDICTIONS.CSV │
+│  (Operations Console) │   │(kestrel_predictions.db)│  │  (2,096 Rows)  │
+└───────────────────────┘   └───────────────────────┘   └────────────────┘
+```
+
 ```mermaid
-flowchart TD
-    A["Warehouse Dispatch Snapshot<br>(test_unlabelled.csv)"] --> B["Anti-Leakage Guardrail<br>(Purges last_service_event_type & pickup_scheduled_at)"]
-    B --> C["Feature Engineering Pipeline<br>(Tenure, Pincode Area, Basket Ratios, Delivery Note Regex)"]
-    C --> D["CatBoost Classifier<br>(model/return_risk.cbm)"]
-    D --> E["Continuous Risk Score [0, 1]<br>(ROC-AUC: 0.7795)"]
-    E --> F["Local Tree SHAP Engine<br>(Deterministic Attribution - ₹0 API Cost)"]
-    E --> G["Unit Economics Gate<br>(11.2% Call Break-Even Benchmark)"]
-    F & G --> H["FastAPI Microservice<br>(app/main.py)"]
-    H --> I["Liquidmorphic Operations UI<br>(Vanilla HTML/CSS/JS)"]
-    H --> J["SQLite Audit Log<br>(kestrel_predictions.db)"]
-    H --> K["predictions.csv<br>(2,096 Evaluated Orders)"]
+graph TD
+    A[Warehouse Dispatch Snapshot] --> B[Anti-Leakage Guardrail]
+    B --> C[Feature Engineering Pipeline]
+    C --> D[CatBoost Classifier]
+    D --> E[Continuous Risk Score 0.0 to 1.0]
+    E --> F[Local Tree SHAP Engine]
+    E --> G[Unit Economics Gate]
+    F --> H[FastAPI Microservice]
+    G --> H[FastAPI Microservice]
+    H --> I[Liquidmorphic Operations UI]
+    H --> J[SQLite Audit Log]
+    H --> K[predictions.csv]
 ```
 
 ---
